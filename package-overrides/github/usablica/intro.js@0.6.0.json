@@ -1,9 +1,0 @@
-{
-    "main": "intro",
-    "files": ["intro.js", "introjs.css"],
-    "shim": {
-        "intro": {
-            "imports": ["./introjs.css!"]
-        }
-    }
-}

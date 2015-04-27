@@ -1,7 +1,0 @@
-{
-  "main": "superagent",
-  "shim": {
-    "superagent": true
-  },
-  "ignore": ["lib"]
-}

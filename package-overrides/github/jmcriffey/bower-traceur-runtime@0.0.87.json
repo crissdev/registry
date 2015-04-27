@@ -1,8 +1,0 @@
-{
-  "format": "global",
-  "shim": {
-    "traceur-runtime": {
-      "exports": "$traceurRuntime"
-    }
-  }
-}

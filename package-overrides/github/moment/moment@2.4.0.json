@@ -1,6 +1,0 @@
-{
-  "files": ["moment.js", "lang"],
-  "map": {
-    "moment": "./moment"
-  }
-}

@@ -1,0 +1,22 @@
+<blockquote>
+  Current package count in the registry: <strong>{{::home.packages.length}}</strong>
+</blockquote>
+
+<div id="search">
+  <input autofocus type="text" ng-model="home.q.$" placeholder="search">
+  <span></span>
+</div>
+
+<ul>
+  <li class="package" ng-repeat="package in home.packages | filter:home.q">
+    <a href="http://{{:: package.url }}">
+      <strong>{{:: package.key }}</strong>
+      <small>{{:: package.source }}</small>
+    </a>
+    <img ng-src="app/assets/{{:: package.distro }}.svg" alt="{{:: package.distro }}">
+  </li>
+</ul>
+
+<button id="backToTop" ng-click="home.backToTop()">
+  &#10094;
+</button>

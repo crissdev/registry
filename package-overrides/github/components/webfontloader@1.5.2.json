@@ -1,7 +1,0 @@
-{
-  "shim": {
-    "webfont": {
-      "exports": "WebFont"
-    }
-  }
-}

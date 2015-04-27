@@ -1,26 +1,31 @@
 {
-  "name": "registry",
-  "version": "0.0.0",
-  "description": "The jspm registry and package.json override service",
+  "name": "jspm-registry-gh-pages",
+  "version": "0.0.1",
+  "description": "the jspm registry",
+  "main": "build.js",
+  "author": "Kasper Lewau <lewauu@gmail.com> (https://github.com/kasperlewau)",
+  "license": "mit",
+  "jspm": {
+    "directories": {},
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.3.15",
+      "angular-ui-router": "github:angular-ui/ui-router@^0.2.14",
+      "lodash": "npm:lodash@^3.6.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.0.12",
+      "babel-runtime": "npm:babel-runtime@^5.0.12",
+      "core-js": "npm:core-js@^0.8.1"
+    }
+  },
+  "devDependencies": {
+    "jshint": "^2.7.0",
+    "jshint-stylish": "^1.0.1",
+    "pushserve": "^0.1.6"
+  },
   "scripts": {
-    "test": "node test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jspm/registry.git"
-  },
-  "bugs": {
-    "url": "https://github.com/jspm/registry/issues"
-  },
-  "homepage": "https://github.com/jspm/registry",
-  "private": true,
-  "dependencies": {
-    "colors": "^1.0.3",
-    "commander": "^2.7.1",
-    "glob": "^5.0.3",
-    "jspm-github": "git://github.com/jspm/github",
-    "jspm-npm": "git://github.com/jspm/npm",
-    "mout": "^0.11.0",
-    "q": "^1.2.0"
+    "serve": "pushserve -p 9000",
+    "build": "jspm bundle app/bootstrap --inject",
+    "lint": "jshint app/*.js --reporter node_modules/jshint-stylish/stylish.js"
   }
 }

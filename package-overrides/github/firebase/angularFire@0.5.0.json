@@ -1,6 +1,0 @@
-{
-  "files": ["angularfire.js"],
-  "shim": {
-    "angularfire": ["angular"]
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "main": "ElementQueries.js",
-  "format": "global",
-  "directories": {
-    "lib": "src"
-  }
-}

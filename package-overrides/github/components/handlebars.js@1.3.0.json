@@ -1,9 +1,0 @@
-{
-  "main": "handlebars",
-  "shim": {
-    "handlebars": {
-      "exports": "Handlebars"
-    }
-  },
-  "files": ["handlebars.js"]
-}

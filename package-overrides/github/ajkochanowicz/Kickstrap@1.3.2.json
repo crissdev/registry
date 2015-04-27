@@ -1,9 +1,0 @@
-{
-    "main": "Kickstrap/js/kickstrap",
-    "shim": {
-        "Kickstrap/js/kickstrap": ["jquery"]
-    },
-    "map": {
-        "jquery": "jquery@1.10"
-    }
-}
