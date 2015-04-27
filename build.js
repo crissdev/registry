@@ -16824,12 +16824,14 @@ System.register('app/app', ['npm:babel-runtime@5.1.11/core-js/object/keys', 'app
       controller: 'HomeController',
       controllerAs: 'home',
       resolve: {
-        packages: function packages($http) {
-          if (localStorage.getItem('cachedList')) {
-            return JSON.parse(localStorage.getItem('cachedList'));
-          }
+        packages: function packages($http, $q) {
+          var config = {
+            headers: {
+              'If-None-Match': localStorage.getItem('etag')
+            }
+          };
 
-          return $http.get(registryPath).then(function (res) {
+          function successHandler(res) {
             var decoded = atob(res.data.content);
             var json = JSON.parse(decoded);
             var keys = _Object$keys(json);
@@ -16849,9 +16851,21 @@ System.register('app/app', ['npm:babel-runtime@5.1.11/core-js/object/keys', 'app
               };
             });
 
+            localStorage.setItem('etag', res.headers('Etag'));
             localStorage.setItem('cachedList', JSON.stringify(mapped));
+
             return mapped;
-          });
+          }
+
+          function errHandler(err) {
+            if (err.status === 304) {
+              return JSON.parse(localStorage.getItem('cachedList'));
+            } else {
+              throw new Error('Something went wrong!');
+            }
+          }
+
+          return $http.get(registryPath, config).then(successHandler)['catch'](errHandler);
         }
       },
       templateUrl: 'app/components/home.html'
@@ -16871,23 +16885,8 @@ System.register('app/app', ['npm:babel-runtime@5.1.11/core-js/object/keys', 'app
 
       _export('default', angular.module('jspmRegistry', ['ui.router', home.name]).constant('registryPath', 'https://api.github.com/repos/jspm/registry/contents/registry.json').config(config));
 
-      // source.forEach(function (pkg) {
-      //   if (pkg.source.indexOf('github') > -1) {
-      //     var split = pkg.source.split('/');
-
-      //     $http.get('https://api.github.com/repos/' + split[1] + '/' + split[2] + '/contents/bower.json').then(function (res) {
-      //       var decoded = atob(res.data.content);
-      //       var json    = JSON.parse(decoded);
-
-      //       pkg.description = json.description;
-      //     });
-      //     // $http.get('https://api.github.com/repos/jspm/registry/contents/')
-      //   }
-      // });
-      // Stars: https://api.github.com/repos/AngularAgility/AngularAgility { stargazers_count }
-      // Watchers: https://api.github.com/repos/AngularAgility/AngularAgility { watchers_count }
-      // https://www.npmjs.com/static/images/npm-logo.svg
-      // http://uxrepo.com/static/icon-sets/mfg-labs/svg/github.svg
+      // Stars: https://api.github.com/repos/owner/repo { stargazers_count }
+      // Watchers: https://api.github.com/repos/owner/repo { watchers_count }
     }
   };
 });

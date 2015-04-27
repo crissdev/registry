@@ -6,12 +6,14 @@ function config ($urlRouterProvider, $stateProvider, registryPath) {
     controller:   'HomeController',
     controllerAs: 'home',
     resolve: {
-      packages: function ($http) {
-        if (localStorage.getItem('cachedList')) {
-          return JSON.parse(localStorage.getItem('cachedList'));
-        }
+      packages: function ($http, $q) {
+        var config = {
+          headers: {
+            'If-None-Match': localStorage.getItem('etag')
+          }
+        };
 
-        return $http.get(registryPath).then(function (res) {
+        function successHandler (res) {
           var decoded = atob(res.data.content);
           var json    = JSON.parse(decoded);
           var keys    = Object.keys(json);
@@ -31,9 +33,23 @@ function config ($urlRouterProvider, $stateProvider, registryPath) {
             }
           });
 
+          localStorage.setItem('etag', res.headers('Etag'));
           localStorage.setItem('cachedList', JSON.stringify(mapped));
+
           return mapped;
-        });
+        }
+
+        function errHandler (err) {
+          if (err.status === 304) {
+            return JSON.parse(localStorage.getItem('cachedList'));
+          } else {
+            throw new Error('Something went wrong!');
+          }
+        }
+
+        return $http.get(registryPath, config)
+          .then(successHandler)
+          .catch(errHandler);
       }
     },
     templateUrl:  'app/components/home.html'
