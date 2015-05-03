@@ -16858,7 +16858,7 @@ System.register('app/app', ['npm:babel-runtime@5.1.11/core-js/object/keys', 'app
           }
 
           function errHandler(err) {
-            if (err.status === 304) {
+            if (err.status === 304 || 403) {
               return JSON.parse(localStorage.getItem('cachedList'));
             } else {
               throw new Error('Something went wrong!');
