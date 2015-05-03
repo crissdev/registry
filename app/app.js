@@ -28,11 +28,12 @@ function config ($urlRouterProvider, $stateProvider, registryPath) {
             return {
               key:    key,
               distro: split[0],
-              source: json[key],
+              source: _.last(json[key].split(':')),
               url:    urlMap[split[0]] + '/' + split[1]
             }
           });
 
+          localStorage.removeItem('rateLimitReached');
           localStorage.setItem('etag', res.headers('Etag'));
           localStorage.setItem('cachedList', JSON.stringify(mapped));
 
@@ -41,9 +42,11 @@ function config ($urlRouterProvider, $stateProvider, registryPath) {
 
         function errHandler (err) {
           if (err.status === 304) {
+            localStorage.removeItem('rateLimitReached');
             return JSON.parse(localStorage.getItem('cachedList'));
-          } else {
-            throw new Error('Something went wrong!');
+          } else if (err.status === 403) {
+            localStorage.setItem('rateLimitReached', true);
+            return JSON.parse(localStorage.getItem('cachedList'));
           }
         }
 

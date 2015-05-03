@@ -11,8 +11,13 @@
   <li class="package" ng-repeat="package in home.packages | filter:home.q">
     <a href="http://{{:: package.url }}">
       <strong>{{:: package.key }}</strong>
+      <br>
       <small>{{:: package.source }}</small>
     </a>
+    <div ng-if="package.stars || package.watchers">
+      <span>Stars: 12</span>
+      <span>Watchers: 36</span>
+    </div>
     <img ng-src="app/assets/{{:: package.distro }}.svg" alt="{{:: package.distro }}">
   </li>
 </ul>
