@@ -40,7 +40,7 @@ function config ($urlRouterProvider, $stateProvider, registryPath) {
         }
 
         function errHandler (err) {
-          if (err.status === 304 || 403) {
+          if (err.status === 304 || err.status === 403) {
             return JSON.parse(localStorage.getItem('cachedList'));
           } else {
             throw new Error('Something went wrong!');
